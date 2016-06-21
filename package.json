@@ -1,0 +1,20 @@
+{
+  "name": "animate-out",
+  "version": "0.0.1",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "tarikjn",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^15.1.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.10.4",
+    "chai": "^3.5.0",
+    "jsdom": "^9.2.1",
+    "mocha": "^2.5.3"
+  }
+}
