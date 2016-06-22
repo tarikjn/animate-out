@@ -10,19 +10,57 @@ describe('AnimateOut', function() {
       .to.include('showing', 'complete', 'children');
   });
 
-  it('should return an instance of the child with the props on animationend, close, and leaving', function() {
-    var elm = enzyme.shallow(
-      <AnimateOut showing={true} complete={noop}>
-        <Dummy />
-      </AnimateOut>
-    );
-    var instance = elm.instance();
-    expect(elm.contains(
-      <Dummy
-        onAnimationEnd={instance.processAnimationEvent}
-        close={instance.close}
-        leaving={instance.state.leaving}
-      />
-    ));
+  context('behavior', function() {
+    before(function() {
+      this.elm = enzyme.shallow(
+        <AnimateOut showing={true} complete={noop}>
+          <Dummy foo={'bar'}/>
+        </AnimateOut>
+      );
+      this.instance = this.elm.instance();
+    });
+
+    it('should return an instance of the child with the props on animationend, close, and leaving and not alter existing props', function() {
+      expect(this.elm.contains(
+        <Dummy
+          onAnimationEnd={this.instance.processAnimationEvent}
+          close={this.instance.close}
+          leaving={this.instance.state.leaving}
+          foo={'bar'}
+        />
+      )).to.be.true;
+    });
+
+    it('should set leaving to true when close is called', function() {
+      this.instance.close();
+
+      expect(this.instance.state.leaving).to.be.true;
+    });
+  });
+
+  context('processAnimationEvent', function() {
+    beforeEach(function() {
+      this.elm = enzyme.shallow(
+        <AnimateOut showing={true} complete={noop}>
+          <Dummy />
+        </AnimateOut>
+      );
+      this.instance = this.elm.instance();
+      this.instance.close();
+    });
+
+    it('should take an animation name and an event', function() {
+      expect(this.instance.processAnimationEvent.length).to.eql(2);
+    });
+
+    it('should set leaving state to false if the event name and the exit event name are the same', function() {
+      this.instance.processAnimationEvent.call(this.instance, 'foo', {animationName: 'foo'});
+      expect(this.instance.state.leaving).to.be.false;
+    });
+
+    it('should not set the leaving state to false if the events don\'t match', function() {
+      this.instance.processAnimationEvent.call(this.instance, 'foo', {});
+      expect(this.instance.state.leaving).to.be.true;
+    });
   });
 });
