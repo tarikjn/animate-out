@@ -1,6 +1,6 @@
 var React = require('react');
 var Dummy = require('./Dummy');
-var AnimateOut = require('../lib/AnimateOut');
+var AnimateOut = require('../lib');
 var enzyme = require('enzyme');
 var expect = require('chai').expect;
 

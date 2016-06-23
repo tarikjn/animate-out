@@ -6,8 +6,8 @@
   "scripts": {
     "test": "./node_modules/.bin/mocha"
   },
-  "author": "tarikjn",
-  "license": "MIT",
+  "author": "Tarik Ansari",
+  "license": "Apache-2.0",
   "peerDependencies": {
     "react": "^15.1.0"
   },
