@@ -3,3 +3,4 @@
 --recursive
 --reporter dot
 --ui bdd
+test/*.test.js*
