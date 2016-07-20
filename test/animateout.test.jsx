@@ -67,10 +67,12 @@ describe('AnimateOut', function() {
   context('showing toggled by complete callback', function() {
     // This simulates the case where the 'complete' method sets the 'showing'
     // prop to false.  This shouldn't trigger a remount of the child component,
-    // setting the 'leaving' state to true will prevent this.
+    // setting the 'leaving' state to true before calling 'complete' will prevent this.
     beforeEach(function() {
       this.mountCount = 0;
-      // enzyme.mount() actually results in life-cycle functions being called
+      // enzyme.mount() causes life-cycle functions to be called.
+      // The 'setProps' here is an enzyme feature that re-renders the fixture with
+      // new props.
       this.elm = enzyme.mount(
         <AnimateOut showing={true} complete={() => this.elm.setProps({showing: false})}>
           <Dummy handleMount={() => this.mountCount = this.mountCount + 1} />
@@ -78,7 +80,6 @@ describe('AnimateOut', function() {
       );
       this.instance = this.elm.instance();
       this.instance.close();
-      this.elm.update();
     });
 
     it('should not remount component', function() {
