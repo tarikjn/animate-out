@@ -2,7 +2,12 @@ var React = require('react');
 var Dummy = require('./Dummy');
 var AnimateOut = require('../lib');
 var enzyme = require('enzyme');
-var expect = require('chai').expect;
+var chai = require('chai');
+var expect = chai.expect;
+var sinon = require('sinon');
+var sinonChai = require('sinon-chai');
+
+chai.use(sinonChai);
 
 describe('AnimateOut', function() {
   it('should require three props', function() {
@@ -69,13 +74,13 @@ describe('AnimateOut', function() {
     // prop to false.  This shouldn't trigger a remount of the child component,
     // setting the 'leaving' state to true before calling 'complete' will prevent this.
     beforeEach(function() {
-      this.mountCount = 0;
+      this.mountCounter = sinon.spy();
       // enzyme.mount() causes life-cycle functions to be called.
       // The 'setProps' here is an enzyme feature that re-renders the fixture with
       // new props.
       this.elm = enzyme.mount(
         <AnimateOut showing={true} complete={() => this.elm.setProps({showing: false})}>
-          <Dummy handleMount={() => this.mountCount = this.mountCount + 1} />
+          <Dummy handleMount={this.mountCounter} />
         </AnimateOut>
       );
       this.instance = this.elm.instance();
@@ -85,7 +90,7 @@ describe('AnimateOut', function() {
     it('should not remount component', function() {
       expect(this.instance.state.leaving).to.be.true;
       expect(this.instance.props.showing).to.be.false;
-      expect(this.mountCount).to.eql(1);
+      expect(this.mountCounter).to.have.been.called.once;
     });
   });
 });
