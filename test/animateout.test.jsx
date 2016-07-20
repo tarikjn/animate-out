@@ -2,7 +2,12 @@ var React = require('react');
 var Dummy = require('./Dummy');
 var AnimateOut = require('../lib');
 var enzyme = require('enzyme');
-var expect = require('chai').expect;
+var chai = require('chai');
+var expect = chai.expect;
+var sinon = require('sinon');
+var sinonChai = require('sinon-chai');
+
+chai.use(sinonChai);
 
 describe('AnimateOut', function() {
   it('should require three props', function() {
@@ -61,6 +66,31 @@ describe('AnimateOut', function() {
     it('should not set the leaving state to false if the events don\'t match', function() {
       this.instance.processAnimationEvent.call(this.instance, 'foo', {});
       expect(this.instance.state.leaving).to.be.true;
+    });
+  });
+
+  context('showing toggled by complete callback', function() {
+    // This simulates the case where the 'complete' method sets the 'showing'
+    // prop to false.  This shouldn't trigger a remount of the child component,
+    // setting the 'leaving' state to true before calling 'complete' will prevent this.
+    beforeEach(function() {
+      this.mountCounter = sinon.spy();
+      // enzyme.mount() causes life-cycle functions to be called.
+      // The 'setProps' here is an enzyme feature that re-renders the fixture with
+      // new props.
+      this.elm = enzyme.mount(
+        <AnimateOut showing={true} complete={() => this.elm.setProps({showing: false})}>
+          <Dummy handleMount={this.mountCounter} />
+        </AnimateOut>
+      );
+      this.instance = this.elm.instance();
+      this.instance.close();
+    });
+
+    it('should not remount component', function() {
+      expect(this.instance.state.leaving).to.be.true;
+      expect(this.instance.props.showing).to.be.false;
+      expect(this.mountCounter).to.have.been.called.once;
     });
   });
 });
