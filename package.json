@@ -2,7 +2,8 @@
   "name": "react-animate-out",
   "version": "0.1.0",
   "description": "Unmounts a component after a CSS animation completes.",
-  "homepage": "https://github.com/iheartradio/AnimateOut#readme",
+  "homepage": "https://github.com/iheartradio/react-animate-out",
+  "repository": "https://github.com/iheartradio/react-animate-out",
   "main": "lib/index.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha"
