@@ -2,7 +2,7 @@
 
 Unmounts a component after a CSS animation completes.
 
-This components manage the mounting of a component by relying entirely on CSS animation events which provides DRY-ness and performance advantages. As such, it does not support [IE9](http://caniuse.com/#feat=css-animation) and requires React v15 or later.
+This component manages the mounting of a component by relying entirely on CSS animation events which provides DRY-ness and performance advantages. As such, it does not support [IE9](http://caniuse.com/#feat=css-animation) and requires React v15 or later.
 
 ## Motivation
 
@@ -11,12 +11,12 @@ This components manage the mounting of a component by relying entirely on CSS an
 ## Installation
 
 ```
-$ npm install react-animate-out --save-dev
+$ npm install react-animate-out
 ```
 
 ## Usage
 
-If we have a css class called "dialog-leave" and that uses a keyfram animation called "anim-close", we can apply Animate out to a Modal component using the following logic:
+If we have a CSS class called "dialog-leave" and that uses a keyframe animation called "anim-close", we can apply Animate out to a Modal component using the following logic:
 
 ```js
 import AnimateOut from 'react-animate-out'
