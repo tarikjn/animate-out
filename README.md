@@ -102,7 +102,7 @@ CSS Animaton                    show          leave -----/
 
 `showing` is managed by the application using AnimateOut, `leaving` is managed by AnimateOut. Complete is called immediatly to minimize delays in the application and prioritize user experience, if your complete action must necessarily unmount the AnimateOut itself, then don't use an animation or AnimateOut, just manage mounting as such:
 
-```
+```js
 return (
   {showing &&
     <DisplayElement onClose={this.complete} />
